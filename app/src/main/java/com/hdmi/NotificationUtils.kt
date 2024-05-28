@@ -20,11 +20,14 @@ object NotificationUtils {
 
         // 创建一个Intent，指定要跳转的Activity
         val intent = Intent(context, activity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+
         val pendingIntent =
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE)
 
         val title = "第二屏幕"
-        val content = "点击此处返回APP"
+        val content = "让焦点回到投放的屏幕"
 
         // 创建通知
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)

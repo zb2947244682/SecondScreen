@@ -89,17 +89,18 @@ class MainActivity : Activity() {
 
         deliverButton.setOnClickListener {
             if (display_ok && app_ok) {
-
-                val intent =
-                    packageManager.getLaunchIntentForPackage(sel_packageName)
-
-                intent?.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent?.putExtra("force_landscape", true); // 通过Extra传递参数告诉Activity需要强制横屏
-                startActivity(
-                    intent,
-                    ActivityOptions.makeBasic().setLaunchDisplayId(sel_display.displayId)
-                        .toBundle()
-                )
+                AppUtils.launchApp(this, GlobalUtils.packageName, GlobalUtils.displayId)
+//
+//                val intent =
+//                    packageManager.getLaunchIntentForPackage(sel_packageName)
+//
+//                intent?.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent?.putExtra("force_landscape", true); // 通过Extra传递参数告诉Activity需要强制横屏
+//                startActivity(
+//                    intent,
+//                    ActivityOptions.makeBasic().setLaunchDisplayId(sel_display.displayId)
+//                        .toBundle()
+//                )
             }
         }
     }
@@ -153,6 +154,8 @@ class MainActivity : Activity() {
             screen_list_item_layout.setOnClickListener {
                 sel_display = display
                 display_ok = true
+
+                GlobalUtils.displayId = display.displayId
                 refreshStatus()
             }
             screen_ll.addView(screen_list_item_layout)
@@ -186,6 +189,8 @@ class MainActivity : Activity() {
                 app_list_item_layout.setOnClickListener {
                     sel_appName = app.name
                     sel_packageName = app.packageName
+
+                    GlobalUtils.packageName = app.packageName
                     app_ok = true
                     refreshStatus()
                 }
