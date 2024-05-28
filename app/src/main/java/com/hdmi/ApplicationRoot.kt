@@ -11,10 +11,6 @@ class ApplicationRoot : Application() {
 
         // 在这里可以进行一些全局初始化操作
         // 例如：初始化日志、初始化数据库等
-
-        NotificationUtils.createNotificationChannel(this)
-
-        NotificationUtils.showNotification(this, WakeActivity())
     }
 
     override fun onTerminate() {

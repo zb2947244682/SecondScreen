@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.provider.Settings
 import androidx.core.app.NotificationCompat
 
 object NotificationUtils {
@@ -14,6 +15,15 @@ object NotificationUtils {
     private const val CHANNEL_ID = "reback"
     private const val CHANNEL_NAME = "回到应用"
 
+    fun isNotificationEnabled(context: Context): Boolean {
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        return notificationManager.areNotificationsEnabled()
+    }
+    fun openNotificationSettings(context: Context) {
+        val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+        intent.putExtra(Settings.EXTRA_APP_PACKAGE, context.packageName)
+        context.startActivity(intent)
+    }
     fun showNotification(context: Context, activity: Activity) {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

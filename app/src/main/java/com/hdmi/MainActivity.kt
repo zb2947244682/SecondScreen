@@ -1,10 +1,11 @@
 package com.hdmi
 
 import android.app.Activity
-import android.app.ActivityOptions
+import android.app.NotificationManager
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.os.Bundle
+import android.util.Log
 import android.view.Display
 import android.view.LayoutInflater
 import android.widget.Button
@@ -31,6 +32,17 @@ class MainActivity : Activity() {
     override fun onResume() {
         super.onResume()
 
+        val areNotificationsEnabled = NotificationUtils.isNotificationEnabled(this)
+
+        if (!areNotificationsEnabled) {
+            ToastUtils.showShort(this, "打开通知获取最佳体验")
+//            NotificationUtils.openNotificationSettings(this)
+        } else {
+            NotificationUtils.createNotificationChannel(this)
+
+            NotificationUtils.showNotification(this, WakeActivity())
+        }
+
         refreshDisplayList()
         refreshAppList()
     }
@@ -38,6 +50,10 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+
+
 
         DisplayUtils.startListen(
             this,
@@ -90,17 +106,6 @@ class MainActivity : Activity() {
         deliverButton.setOnClickListener {
             if (display_ok && app_ok) {
                 AppUtils.launchApp(this, GlobalUtils.packageName, GlobalUtils.displayId)
-//
-//                val intent =
-//                    packageManager.getLaunchIntentForPackage(sel_packageName)
-//
-//                intent?.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent?.putExtra("force_landscape", true); // 通过Extra传递参数告诉Activity需要强制横屏
-//                startActivity(
-//                    intent,
-//                    ActivityOptions.makeBasic().setLaunchDisplayId(sel_display.displayId)
-//                        .toBundle()
-//                )
             }
         }
     }
