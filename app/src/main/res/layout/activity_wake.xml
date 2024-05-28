@@ -13,10 +13,10 @@
         android:layout_height="0dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/search_layout"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/app_list"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/device_list_item" />
 
     <!-- 显示应用的列表 -->
@@ -26,10 +26,10 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/search_layout"
-        app:layout_constraintStart_toEndOf="@+id/device_list"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/device_list"
+        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/app_list_item" />
 
     <!-- 显示用户选择的设备 -->
@@ -41,9 +41,10 @@
         android:padding="8dp"
         android:text="选择的设备："
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        app:layout_constraintTop_toBottomOf="@+id/device_list"
+        app:layout_constraintBottom_toTopOf="@id/search_layout"
+        app:layout_constraintEnd_toStartOf="@+id/selected_app_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/selected_app_label" />
+        app:layout_constraintTop_toBottomOf="@+id/device_list" />
 
     <!-- 显示用户选择的应用 -->
     <TextView
@@ -54,29 +55,30 @@
         android:padding="8dp"
         android:text="选择的应用："
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        app:layout_constraintTop_toBottomOf="@+id/app_list"
+        app:layout_constraintBottom_toTopOf="@id/search_layout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/selected_device_label"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/app_list" />
 
     <!-- 底部的搜索框和按钮 -->
     <LinearLayout
         android:id="@+id/search_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:orientation="horizontal"
         android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <!-- 搜索输入框 -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp">
+            android:layout_marginRight="8dp"
+            android:layout_weight="1">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/search_input"
@@ -109,10 +111,12 @@
         android:id="@+id/cast_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="96dp"
         android:src="@drawable/ic_cast"
         app:backgroundTint="@color/colorPrimary"
         app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
