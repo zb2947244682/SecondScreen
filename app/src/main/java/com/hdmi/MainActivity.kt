@@ -3,6 +3,7 @@ package com.hdmi
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.os.Bundle
 import android.view.Display
 import android.view.LayoutInflater
@@ -27,19 +28,51 @@ class MainActivity : Activity() {
 
     var app_ok = false
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    override fun onResume() {
+        super.onResume()
 
         refreshDisplayList()
         refreshAppList()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        DisplayUtils.startListen(
+            this,
+            onDisplayAdded = { displayId ->
+                // 处理显示器增加事件
+                ToastUtils.showShort(this, "检测到显示设备连接")
+                refreshDisplayList()
+            },
+            onDisplayChanged = { displayId ->
+                // 处理显示器改变事件
+//                ToastUtils.showShort(this, "onDisplayChanged")
+            },
+            onDisplayRemoved = { displayId ->
+                // 处理显示器移除事件
+                ToastUtils.showShort(this, "检测到显示设备断开")
+                refreshDisplayList()
+            }
+        )
+
+
+        inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        val clearButton = findViewById<Button>(R.id.clearButton)
+
+        clearButton.setOnClickListener {
+            findViewById<EditText>(R.id.searchText).text.clear()
+            refreshAppList()
+//            Toast.makeText(this, "搜索完成", Toast.LENGTH_SHORT).show()
+        }
 
         val searchButton = findViewById<Button>(R.id.searchButton)
 
         searchButton.setOnClickListener {
             refreshAppList()
-            Toast.makeText(this, "搜索完成", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "搜索完成", Toast.LENGTH_SHORT).show()
         }
 
 
@@ -100,8 +133,13 @@ class MainActivity : Activity() {
 
         screen_ll.removeAllViews()
 
+        var index = 0
         for (display in displayList) {
             val screen_list_item_layout = inflater.inflate(R.layout.screen_list_item_layout, null)
+
+            if (index == 0) {
+                screen_list_item_layout.setBackgroundResource(R.drawable.rounded_button_orange)
+            }
 
             screen_list_item_layout.findViewById<TextView>(R.id.screen_list_item_layout_title).text =
                 display.name
@@ -117,13 +155,17 @@ class MainActivity : Activity() {
                 display_ok = true
                 refreshStatus()
             }
-
             screen_ll.addView(screen_list_item_layout)
+            index++
         }
     }
 
-    private fun refreshAppList() {
-        var appList = AppUtils.getApps(this)
+    private fun refreshAppList(dns: Boolean = false) {
+        var appList: List<ApplicationInfo> = listOf()
+
+        if (!dns) {
+            appList = AppUtils.getApps(this)
+        }
 
         val app_ll: LinearLayout = findViewById(R.id.app_ll)
 

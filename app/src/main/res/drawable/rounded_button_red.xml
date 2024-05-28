@@ -1,0 +1,6 @@
+<!-- rounded_button_primary.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#ff0000" />
+    <corners android:radius="12dp" /> <!-- 控制按钮的圆角半径，值越大圆角越大 -->
+</shape>

@@ -31,12 +31,13 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_toLeftOf="@id/searchButton"
+        android:layout_toLeftOf="@id/clearButton"
         android:background="@drawable/edittext_background"
         android:drawablePadding="8dp"
         android:ems="10"
         android:hint="请输入APP名称"
         android:inputType="text"
+        android:maxLength="10"
         android:padding="12dp"
         android:text=""
         android:textColor="#333333"
@@ -44,8 +45,22 @@
 
 
     <Button
+        android:id="@+id/clearButton"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/searchText"
+        android:layout_alignBottom="@id/searchText"
+        android:layout_marginRight="12dp"
+        android:layout_toLeftOf="@id/searchButton"
+        android:background="@drawable/rounded_button_red"
+        android:text="重置"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+
+    <Button
         android:id="@+id/searchButton"
-        android:layout_width="80dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/searchText"
         android:layout_alignBottom="@id/searchText"
