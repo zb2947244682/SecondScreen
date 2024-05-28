@@ -140,7 +140,7 @@ class MainActivity : Activity() {
                     app_ok = true
                     refreshStatus()
                 }
-                app_ll.addView(-)
+                app_ll.addView(app_list_item_layout)
             }
         }
     }
