@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "HDMI"
+rootProject.name = "Second Screen"
 include ':app'
