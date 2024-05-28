@@ -2,18 +2,15 @@ package com.hdmi
 
 import android.app.Activity
 import android.app.ActivityOptions
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Display
 import android.view.LayoutInflater
 import android.widget.Button
-import android.widget.HorizontalScrollView
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.children
 
 
 class MainActivity : Activity() {
@@ -37,6 +34,14 @@ class MainActivity : Activity() {
 
         refreshDisplayList()
         refreshAppList()
+
+        val searchButton = findViewById<Button>(R.id.searchButton)
+
+        searchButton.setOnClickListener {
+            refreshAppList()
+            Toast.makeText(this, "搜索完成", Toast.LENGTH_SHORT).show()
+        }
+
 
         val refreshButton = findViewById<Button>(R.id.refreshButton)
 
@@ -113,32 +118,30 @@ class MainActivity : Activity() {
     private fun refreshAppList() {
         var appList = AppUtils.getApps(this)
 
-        // 获取 HorizontalScrollView 的引用
         val app_ll: LinearLayout = findViewById(R.id.app_ll)
 
         app_ll.removeAllViews()
 
         for (app in appList) {
+            var text = findViewById<EditText>(R.id.searchText).text
 
-            val app_list_item_layout = inflater.inflate(R.layout.app_list_item_layout, null)
+            if (text.trim() == "" || app.name.contains(text)) {
+                val app_list_item_layout = inflater.inflate(R.layout.app_list_item_layout, null)
 
-            app_list_item_layout.findViewById<TextView>(R.id.app_list_item_layout_title).text =
-                "${app.name}"
+                app_list_item_layout.findViewById<TextView>(R.id.app_list_item_layout_title).text =
+                    "${app.name}"
 
-            app_list_item_layout.findViewById<TextView>(R.id.app_list_item_layout_packagename).text =
-                "包名：${app.packageName}"
+                app_list_item_layout.findViewById<TextView>(R.id.app_list_item_layout_packagename).text =
+                    "包名：${app.packageName}"
 
-//            app_list_item_layout.findViewById<TextView>(R.id.app_list_item_layout_classname).text =
-//                "${app.className}"
-
-            app_list_item_layout.setOnClickListener {
-                sel_appName = app.name
-                sel_packageName = app.packageName
-                app_ok = true
-                refreshStatus()
+                app_list_item_layout.setOnClickListener {
+                    sel_appName = app.name
+                    sel_packageName = app.packageName
+                    app_ok = true
+                    refreshStatus()
+                }
+                app_ll.addView(-)
             }
-            app_ll.addView(app_list_item_layout)
         }
-//        var text = app_list_item_layout.findViewById<TextView>(R.id.app_list_item_layout_title)
     }
 }
